@@ -37,30 +37,22 @@
           <HintPath>..\..\SteamLibrary\steamapps\common\Outward\BepInEx\core\0Harmony.dll</HintPath>
         </Reference>
         <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>C:\References\Assembly-CSharp_publicized.dll</HintPath>
+          <HintPath>..\..\SteamLibrary\steamapps\common\Outward\Outward_Data\Managed\Assembly-CSharp.dll</HintPath>
         </Reference>
         <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\..\SteamLibrary\steamapps\common\Outward\Outward_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
         </Reference>
-        <Reference Include="BepInEx, Version=5.0.0.122, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="BepInEx, Version=5.0.0.129, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\..\SteamLibrary\steamapps\common\Outward\BepInEx\core\BepInEx.dll</HintPath>
         </Reference>
         <Reference Include="BepInEx.Harmony, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\..\SteamLibrary\steamapps\common\Outward\BepInEx\core\BepInEx.Harmony.dll</HintPath>
-        </Reference>
-        <Reference Include="HOOKS-Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\SteamLibrary\steamapps\common\Outward\Outward_Data\Managed\HOOKS-Assembly-CSharp.dll</HintPath>
-        </Reference>
-        <Reference Include="MonoMod.RuntimeDetour, Version=18.6.0.33006, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\Download\PartialityLauncher\bin\MonoMod.RuntimeDetour.dll</HintPath>
         </Reference>
         <Reference Include="Rewired_Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\..\SteamLibrary\steamapps\common\Outward\Outward_Data\Managed\Rewired_Core.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Xml" />
         <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\..\SteamLibrary\steamapps\common\Outward\Outward_Data\Managed\UnityEngine.dll</HintPath>
         </Reference>
@@ -70,7 +62,13 @@
         <Compile Include="HideBackpacks.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
+    <ItemGroup>
+      <None Include="packages.config" />
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <PropertyGroup>
+        <PostBuildEvent>copy /y $(TargetPath) N:\SteamLibrary\steamapps\common\Outward\BepInEx\plugins</PostBuildEvent>
+    </PropertyGroup>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">

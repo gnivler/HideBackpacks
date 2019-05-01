@@ -5,12 +5,12 @@ using static CustomKeybindings;
 
 namespace HideBackpacks
 {
-    [BepInPlugin("com.gnivler.HideBackpacks", "HideBackpacks", "1.0")]
+    [BepInPlugin("com.gnivler.HideBackpacks", "HideBackpacks", "1.3")]
     public class HideBackpacks : BaseUnityPlugin
     {
         public void Awake()
         {
-            var harmony = HarmonyInstance.Create("com.gnivler.HideBackpacks");
+            var harmony = HarmonyInstance.Create("com.gnivler.HideBackpacks.Outward");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
             AddAction(
                 "Backpack Visible (Toggle)",
@@ -22,9 +22,11 @@ namespace HideBackpacks
         public class UpdatePatch
         {
             private static bool bagVisible = true;
-            
+
             public static void Postfix(PlayerSystem __instance)
             {
+                if (!__instance.ControlledCharacter.Inventory.EquippedBag) return;
+                
                 var playerID = __instance.ControlledCharacter.OwnerPlayerSys.PlayerID;
                 if (m_playerInputManager[playerID]
                     .GetButtonDown("Backpack Visible (Toggle)"))
@@ -32,14 +34,16 @@ namespace HideBackpacks
                     bagVisible = !bagVisible;
                 }
 
-                if (!__instance.ControlledCharacter.Inventory.EquippedBag) return;
-                if (bagVisible)
+                var itemVisual = Traverse.Create(__instance.ControlledCharacter.Inventory.EquippedBag)
+                    .Field("m_loadedVisual").GetValue<ItemVisual>();
+                if (bagVisible && !itemVisual.IsVisible)
                 {
-                    __instance.ControlledCharacter.Inventory.EquippedBag.m_loadedVisual.Show();
+                    itemVisual.Show();
                 }
-                else
+
+                if (!bagVisible && itemVisual.IsVisible)
                 {
-                    __instance.ControlledCharacter.Inventory.EquippedBag.m_loadedVisual.Hide();
+                    itemVisual.Hide();
                 }
             }
         }
